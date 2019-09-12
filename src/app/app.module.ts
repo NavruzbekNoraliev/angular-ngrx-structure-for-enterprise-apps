@@ -22,6 +22,11 @@ import { environment } from '../environments/environment'; // Angular CLI enviro
 
 // NGRX
 import { StoreModule } from '@ngrx/store';
+// import { heroReducer } from './store/reducers/hero.reducer';
+import { MockService } from './services/mock.service';
+import { EffectsModule } from '@ngrx/effects';
+import { EntityDataModule } from '@ngrx/data';
+import { entityConfig } from './store/data/entity-metadata';
 
 @NgModule({
   imports: [
@@ -34,10 +39,14 @@ import { StoreModule } from '@ngrx/store';
       delay: 300,
       passThruUnknownUrl: true
     }),
-    StoreDevtoolsModule.instrument({
-      maxAge: 25, // Retains last 25 states
-      logOnly: environment.production, // Restrict extension to log-only mode
-    }),
+    StoreModule.forRoot({}),
+    EffectsModule.forRoot([]),
+    EntityDataModule.forRoot(entityConfig),
+    // EffectsModule.forRoot([AuthEffects, LocationEffects]),
+    // StoreDevtoolsModule.instrument({
+    //   maxAge: 25, // Retains last 25 states
+    //   logOnly: environment.production, // Restrict extension to log-only mode
+    // }),
   ],
   declarations: [
     AppComponent,
@@ -46,7 +55,7 @@ import { StoreModule } from '@ngrx/store';
     HeroesComponent,
     HeroDetailComponent,
   ],
-  providers: [HeroService],
+  providers: [HeroService, MockService],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule { }  
